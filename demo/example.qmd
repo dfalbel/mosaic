@@ -1,0 +1,23 @@
+
+
+```{r}
+mosaic:::mosaic(
+    NULL,
+    spec = list(
+        data = list(
+            x = list(
+                list(x = 1, y = 2),
+                list(x = 2, y = 3)
+            )
+        ),
+        plot = list(
+            list(
+                mark = "dot",
+                data = list(from = "x"),
+                x = "x",
+                y = "y"
+            )
+        )
+    ),
+)
+```

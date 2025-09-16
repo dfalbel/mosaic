@@ -1,7 +1,9 @@
-# (uncomment to add a dependency)
-# dependencies:
-#  - name:
-#    version:
-#    src:
-#    script:
-#    stylesheet:
+dependencies:
+  - name: mosaic-assets
+    version: "0.1"
+    package: mosaic
+    src: assets
+    script:
+      src: js/mosaic.js
+      type: module
+

@@ -7,12 +7,9 @@
 #' @export
 mosaic <- function(server, spec, width = NULL, height = NULL, elementId = NULL) {
 
-  print("server")
-  print(server)
-
   # forward options using x
   x = list(
-    api = paste0(server),
+    api = server,
     spec = spec
   )
 

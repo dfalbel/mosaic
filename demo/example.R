@@ -3,7 +3,6 @@ library(DBI)
 library(base64enc)
 
 ui <- fluidPage(
-  mosaicDependencies(),
   mosaicOutput("myplot")
 )
 

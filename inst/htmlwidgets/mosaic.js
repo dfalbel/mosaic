@@ -30,6 +30,12 @@ HTMLWidgets.widget({
             throw new Error("No api found with id", x.api);
           }
           options.api = window[x.api];
+        } else {
+          options.api = window.vg.createAPIContext({
+            coordinator: new window.vg.Coordinator(
+              window.mosaicCore.wasmConnector()
+            )
+          });
         }
 
         generatePlot(spec, options);
