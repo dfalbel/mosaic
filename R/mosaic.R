@@ -5,11 +5,15 @@
 #' @import htmlwidgets
 #'
 #' @export
-mosaic <- function(message, width = NULL, height = NULL, elementId = NULL) {
+mosaic <- function(server, spec, width = NULL, height = NULL, elementId = NULL) {
+
+  print("server")
+  print(server)
 
   # forward options using x
   x = list(
-    message = message
+    api = paste0(server),
+    spec = spec
   )
 
   # create widget
@@ -79,15 +83,17 @@ mosaicServer <- function(id, connection) {
         if (query$type == "arrow") {
           res <- duckdb::duckdb_fetch_arrow(dbSendQuery(connection, query$sql, arrow = TRUE))
           output$result <- base64encode(arrow::write_to_raw(res, format = "stream"))
-          print(output$result)
         } else {
-          stop("not supported yet")
+          stop("Not supported yet")
         }
       }, error = function(e) {
-        output$error <- conditionMessage(e)
+        output$error <<- conditionMessage(e)
       })
       
       session$sendCustomMessage(ns("mosaic_reply"), output)
     })
+
+    shiny::reactive(id)
   })
 }
+

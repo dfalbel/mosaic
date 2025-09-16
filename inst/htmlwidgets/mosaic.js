@@ -3,24 +3,45 @@ HTMLWidgets.widget({
   type: 'output',
 
   factory: function(el, width, height) {
+    let spec;
+    let options = {};
 
-    // TODO: define shared variables for this instance
+    function generatePlot (spec, options) {
+      let ast = window.mosaicSpec.parseSpec(spec);
+
+      return window.mosaicSpec.astToDOM(ast, options)
+        .then((result) => {
+          el.replaceChildren(result.element);
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    };
 
     return {
-
       renderValue: function(x) {
+        spec = x.spec;
+        spec.width = width;
+        spec.height = height;
 
-        // TODO: code to render the widget, e.g.
-        el.innerText = x.message;
+        if (x.api) {
+          let api = window[x.api];
+          if (!api) {
+            throw new Error("No api found with id", x.api);
+          }
+          options.api = window[x.api];
+        }
 
+        generatePlot(spec, options);
       },
 
       resize: function(width, height) {
-
-        // TODO: code to re-render the widget with a new size
-
+        spec.width = width;
+        spec.height = height;
+        generatePlot(spec, options);
       }
 
     };
   }
 });
+

@@ -1,7 +1,9 @@
 import * as mosaicCore from 'https://cdn.jsdelivr.net/npm/@uwdata/mosaic-core@0.18.0/+esm';
 import * as vg from 'https://cdn.jsdelivr.net/npm/@uwdata/vgplot@0.18.0/+esm'
+import * as mosaicSpec from 'https://cdn.jsdelivr.net/npm/@uwdata/mosaic-spec@0.18.0/+esm'
 var Shiny = window.Shiny;
 window.vg = vg;
+window.mosaicSpec = mosaicSpec;
 
 function base64ToArrayBuffer(base64) {
   const binary = atob(base64);
@@ -63,6 +65,7 @@ export function registerMosaicHandler(ns) {
 Shiny.addCustomMessageHandler('register_mosaic_api', msg => {
     console.log('registering vg!');
     registerMosaicHandler(msg.ns);
+    console.log('registered vg:', msg.ns);
 })
 
 // window.vg = vg;
