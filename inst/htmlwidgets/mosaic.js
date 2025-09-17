@@ -9,6 +9,10 @@ HTMLWidgets.widget({
     function generatePlot (spec, options) {
       let ast = window.mosaicSpec.parseSpec(spec);
 
+      const loader=document.createElement('div');
+      loader.style.cssText='display:grid;place-items:center;width:100%;height:100%';
+      loader.textContent='⏳ Loading...';
+      el.replaceChildren(loader);
       return window.mosaicSpec.astToDOM(ast, options)
         .then((result) => {
           el.replaceChildren(result.element);
