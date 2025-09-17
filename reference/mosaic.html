@@ -45,7 +45,15 @@ Shiny apps, and the R console.</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">mosaic</span><span class="op">(</span><span class="va">spec</span>, <span class="va">...</span>, api <span class="op">=</span> <span class="cn">NULL</span>, width <span class="op">=</span> <span class="cn">NULL</span>, height <span class="op">=</span> <span class="cn">NULL</span>, elementId <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">mosaic</span><span class="op">(</span></span>
+<span>  <span class="va">spec</span>,</span>
+<span>  <span class="va">...</span>,</span>
+<span>  api <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  width <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  height <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  elementId <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  baseURL <span class="op">=</span> <span class="cn">NULL</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -81,6 +89,11 @@ height specified in the spec.</p></dd>
 
 <dt id="arg-elementid">elementId<a class="anchor" aria-label="anchor" href="#arg-elementid"></a></dt>
 <dd><p>An optional element ID for the widget.</p></dd>
+
+
+<dt id="arg-baseurl">baseURL<a class="anchor" aria-label="anchor" href="#arg-baseurl"></a></dt>
+<dd><p>The baseURL used to acquire files. See additional docs in
+<a href="https://idl.uw.edu/mosaic/api/spec/parser-generators.html#asttodom" class="external-link">astToDom</a>.</p></dd>
 
 </dl></div>
 
