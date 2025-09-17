@@ -4,7 +4,15 @@
 \alias{mosaic}
 \title{Create a Mosaic Widget}
 \usage{
-mosaic(spec, ..., api = NULL, width = NULL, height = NULL, elementId = NULL)
+mosaic(
+  spec,
+  ...,
+  api = NULL,
+  width = NULL,
+  height = NULL,
+  elementId = NULL,
+  baseURL = NULL
+)
 }
 \arguments{
 \item{spec}{A list representing the Mosaic specification. See the
@@ -25,6 +33,9 @@ width specified in the spec.}
 height specified in the spec.}
 
 \item{elementId}{An optional element ID for the widget.}
+
+\item{baseURL}{The baseURL used to acquire files. See additional docs in
+\href{https://idl.uw.edu/mosaic/api/spec/parser-generators.html#asttodom}{astToDom}.}
 }
 \description{
 Create a Mosaic widget that can be used in R Markdown documents,

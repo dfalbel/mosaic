@@ -33,6 +33,8 @@ HTMLWidgets.widget({
 
         console.log(spec);
         
+        options.baseURL = x.baseURL;
+
         if (x.api) {
           let api = window[x.api];
           if (!api) {

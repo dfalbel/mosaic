@@ -38,7 +38,9 @@ spec <- list(
       mark = "dot",
       data = list(from = "penguins"),
       x = "body_mass",
-      y = "flipper_len"
+      y = "flipper_len",
+      stroke = list(column = "species"),
+      symbol = list(column = "species")
     )
   )
 )
@@ -49,6 +51,66 @@ Similar to other grammars, a plot consists of marks — graphical primitives suc
 ```{r}
 mosaic(
   spec,
-  penguins = head(penguins, 50)
+  penguins = dplyr::sample_n(penguins, 50)
 )
+```
+
+To add a legend, we modify the spec to include it. We add a `vconcat` property that adds a legend and a scatter plot. Notice we add a name to the plot so that the legend can refer to it.
+
+```{r}
+spec <- list(
+  vconcat = list(
+    list(
+       legend = "symbol",
+       "for" = "scatter"
+    ),
+    list(
+      name  = "scatter",
+      plot = list(list(
+        mark = "dot",
+        data = list(from = "penguins"),
+        x = "body_mass",
+        y = "flipper_len",
+        stroke = list(column = "species"),
+        symbol = list(column = "species")
+      ))
+    )
+  )
+)
+
+mosaic(
+  spec,
+  penguins = dplyr::sample_n(penguins, 50)
+)
+```
+
+## Loading data
+
+You can also use the `data` attribute in the spec to load data asyncronously into the plot.
+This is useful to acquire data from a remote source.
+
+```{r}
+spec <- list(
+  meta=list(
+    title="Airline Travelers",
+    description="A labeled line chart comparing airport travelers in 2019 and 2020.",
+    credit="Adapted from an [Observable Plot example](https://observablehq.com/@observablehq/plot-labeled-line-chart)."
+  ),
+  data=list(
+    travelers = list(file="data/travelers.parquet"),
+    endpoint = "SELECT * FROM travelers ORDER BY date DESC LIMIT 1\n"
+  ),
+  plot=list(
+    list(mark="ruleY", data=c(0)),
+    list(mark="lineY", data=list(from="travelers"), x="date", y="previous", strokeOpacity=0.35),
+    list(mark="lineY", data=list(from="travelers"), x="date", y="current"),
+    list(mark="text", data=list(from="endpoint"), x="date", y="previous", text=list("2019"), fillOpacity=0.5, lineAnchor="bottom", dy=-6),
+    list(mark="text", data=list(from="endpoint"), x="date", y="current", text=list("2020"), lineAnchor="top", dy=6)
+  ),
+  yGrid=TRUE,
+  yLabel="↑ Travelers per day",
+  yTickFormat="s"
+)
+
+mosaic(spec)
 ```

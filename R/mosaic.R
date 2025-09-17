@@ -16,11 +16,19 @@
 #' @param height The height of the widget (optional). Note that this overrides any
 #'  height specified in the spec.
 #' @param elementId An optional element ID for the widget.
+#' @param baseURL The baseURL used to acquire files. See additional docs in
+#'   [astToDom](https://idl.uw.edu/mosaic/api/spec/parser-generators.html#asttodom).
 #'
 #' @import htmlwidgets
 #'
 #' @export
-mosaic <- function(spec, ..., api = NULL, width = NULL, height = NULL, elementId = NULL) {
+mosaic <- function(spec, ..., api = NULL, width = NULL, height = NULL, elementId = NULL, baseURL = NULL) {
+
+  if (is.null(baseURL)) {
+    # https://github.com/uwdata/mosaic/blob/64ac2aaeefe9ff469edfeed417414a0a7866863f/docs/.vitepress/theme/Example.vue#L40C23-L40C77
+    # Cloudflare hosting of datasets used by mosaic examples
+    baseURL <- 'https://pub-1da360b43ceb401c809f68ca37c7f8a4.r2.dev/'
+  }
 
   # Data is passed to the client side in an efficient format 
   # and added inline to the spec so it can be used in the plot.
@@ -32,7 +40,8 @@ mosaic <- function(spec, ..., api = NULL, width = NULL, height = NULL, elementId
   x <- list(
     api = api,
     spec = spec,
-    data = if (length(data)) data else NULL
+    data = if (length(data)) data else NULL,
+    baseURL = baseURL
   )
 
   # create widget
