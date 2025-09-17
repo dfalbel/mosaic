@@ -24,6 +24,15 @@ HTMLWidgets.widget({
         spec.width = width;
         spec.height = height;
 
+        if (x.data) {
+          let data = Object.fromEntries(
+            Object.entries(x.data).map(([k, v]) => [k, HTMLWidgets.dataframeToD3(v)])
+          );
+          spec.data = Object.assign({}, spec.data, data);
+        }
+
+        console.log(spec);
+        
         if (x.api) {
           let api = window[x.api];
           if (!api) {

@@ -18,7 +18,7 @@ server <- function(input, output, session) {
 
   output$myplot <- renderMosaic({
     mosaic(
-      server = id(),
+      api = id(),
       spec = list(
         plot = list(
           list(

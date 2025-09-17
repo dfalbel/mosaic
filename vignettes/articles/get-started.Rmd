@@ -1,0 +1,54 @@
+---
+title: "Get Started"
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(mosaic)
+```
+
+Mosaic allows creating scalable and interactive data visualizations using the 
+[Mosaic](https://idl.uw.edu/mosaic/) framework directly from R. You can use
+Mosaic to create a wide range of visualizations.
+
+## Installation
+
+To install the Mosaic package, you can use the following command in R:
+
+```R
+pak::pkg_install("dfalbel/mosaic")
+```
+
+## Basic Usage
+
+To create mosaic plots, use the `mosaic` function. First define a specification. The spec is a list that describes the plot(s) you want to create with mosaic as well as the data to be used and optionally more attributes. See the [specification documentation](https://idl.uw.edu/mosaic/api/spec/format.html) for more details.
+
+At its simplest, a spec can be a list with a single plot definition. Here is an example of a simple scatter plot using the built-in `palmerpenguins` dataset:
+
+```{r}
+spec <- list(
+  plot = list(
+    list(
+      mark = "dot",
+      data = list(from = "penguins"),
+      x = "body_mass",
+      y = "flipper_len"
+    )
+  )
+)
+```
+
+Similar to other grammars, a plot consists of marks — graphical primitives such as bars, areas, and lines—which serve as chart layers. Mosaic uses the semantics of Observable Plot, such that each plot has a dedicated set of encoding channels with named scale mappings such as x, y, color, opacity, etc. See [marks API reference](https://idl.uw.edu/mosaic/api/vgplot/marks.html) for a full list of available marks and their channels.
+
+```{r}
+mosaic(
+  spec,
+  penguins = head(penguins, 50)
+)
+```

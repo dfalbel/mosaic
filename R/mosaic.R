@@ -1,16 +1,38 @@
-#' <Add Title>
+#' Create a Mosaic Widget
 #'
-#' <Add Description>
+#' Create a Mosaic widget that can be used in R Markdown documents, 
+#' Shiny apps, and the R console.
+#' 
+#' @param spec A list representing the Mosaic specification. See the
+#'  [specification format reference](https://idl.uw.edu/mosaic/api/spec/format.html)
+#'  for details.
+#' @param ... Named data frames to be used in the plot. Each data frame will be
+#'  added to the spec in an efficient format so it can be used in the plot.
+#' @param api An optional string identifier for a server-side data API. This can be
+#'  used to fetch data from a server-side DuckDB database. It's only used in Shiny apps
+#'  in combination with [mosaicServer()].
+#' @param width The width of the widget (optional). Note that this overrides any
+#'  width specified in the spec.
+#' @param height The height of the widget (optional). Note that this overrides any
+#'  height specified in the spec.
+#' @param elementId An optional element ID for the widget.
 #'
 #' @import htmlwidgets
 #'
 #' @export
-mosaic <- function(server, spec, width = NULL, height = NULL, elementId = NULL) {
+mosaic <- function(spec, ..., api = NULL, width = NULL, height = NULL, elementId = NULL) {
 
+  # Data is passed to the client side in an efficient format 
+  # and added inline to the spec so it can be used in the plot.
+  # make sure it's named.
+  data <- list(...)
+  stopifnot(all(sapply(data, is.data.frame)))
+  
   # forward options using x
-  x = list(
-    api = server,
-    spec = spec
+  x <- list(
+    api = api,
+    spec = spec,
+    data = if (length(data)) data else NULL
   )
 
   # create widget
@@ -53,16 +75,26 @@ renderMosaic <- function(expr, env = parent.frame(), quoted = FALSE) {
 }
 
 
-mosaicUI <- function(id) {
-  ns <- NS(id)
-  tagList(
-    
-  )
-}
-
-#' Adds a mosaic server like infrastructure for a 
-#' duckdb connection. The same di can then be used
-#' in mosaic plot widgets.
+#' Mosaic Server
+#' 
+#' Creates and registers a global mosaic API, coordinator and connector
+#' that can be acessed from js using: 
+#' 
+#' ```js
+#' window.[id]
+#' window.[id + "_coordinator"]
+#' window.[id + "_connector"]
+#' ```
+#' 
+#' This function is intended to be used in Shiny apps in combination with
+#' the `api` parameter of the [mosaic()] function. Allowing you to create
+#' plots that fetch data from a server-side DuckDB database, so you don't
+#' need to send large datasets to the client.
+#' 
+#' @param id The id of the module.
+#' @param connection A DBI connection to a DuckDB database.
+#' 
+#' @returns A shiny reactive that returns the id of the API.
 #' 
 #' @export
 mosaicServer <- function(id, connection) {

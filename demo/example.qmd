@@ -1,8 +1,8 @@
 
 
 ```{r}
-mosaic:::mosaic(
-    NULL,
+mosaic::mosaic(
+    api = NULL,
     spec = list(
         data = list(
             x = list(
@@ -18,6 +18,6 @@ mosaic:::mosaic(
                 y = "y"
             )
         )
-    ),
+    )
 )
 ```

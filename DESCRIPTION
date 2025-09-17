@@ -9,5 +9,6 @@ License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.3
-URL: https://github.com/dfalbel/mosaic
+URL: https://github.com/dfalbel/mosaic, https://dfalbel.github.io/mosaic/
 BugReports: https://github.com/dfalbel/mosaic/issues
+Config/Needs/website: rmarkdown
