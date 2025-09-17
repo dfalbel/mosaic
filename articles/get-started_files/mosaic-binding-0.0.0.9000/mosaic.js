@@ -1,0 +1,62 @@
+HTMLWidgets.widget({
+  name: 'mosaic',
+  type: 'output',
+
+  factory: function(el, width, height) {
+    let spec;
+    let options = {};
+
+    function generatePlot (spec, options) {
+      let ast = window.mosaicSpec.parseSpec(spec);
+
+      return window.mosaicSpec.astToDOM(ast, options)
+        .then((result) => {
+          el.replaceChildren(result.element);
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    };
+
+    return {
+      renderValue: function(x) {
+        spec = x.spec;
+        spec.width = width;
+        spec.height = height;
+
+        if (x.data) {
+          let data = Object.fromEntries(
+            Object.entries(x.data).map(([k, v]) => [k, HTMLWidgets.dataframeToD3(v)])
+          );
+          spec.data = Object.assign({}, spec.data, data);
+        }
+
+        console.log(spec);
+        
+        if (x.api) {
+          let api = window[x.api];
+          if (!api) {
+            throw new Error("No api found with id", x.api);
+          }
+          options.api = window[x.api];
+        } else {
+          options.api = window.vg.createAPIContext({
+            coordinator: new window.vg.Coordinator(
+              window.mosaicCore.wasmConnector()
+            )
+          });
+        }
+
+        generatePlot(spec, options);
+      },
+
+      resize: function(width, height) {
+        spec.width = width;
+        spec.height = height;
+        generatePlot(spec, options);
+      }
+
+    };
+  }
+});
+
