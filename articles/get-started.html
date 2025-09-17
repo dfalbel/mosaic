@@ -151,6 +151,10 @@ Notice we add a name to the plot so that the legend can refer to it.</p>
 <p>You can also use the <code>data</code> attribute in the spec to load
 data asyncronously into the plot. This is useful to acquire data from a
 remote source.</p>
+<p>Files are downloaded from a URL relative to the <code>baseURL</code>
+parameter in the <code>mosaic</code> function. By default, this is
+pointing to a examples server hosted by the <a href="https://idl.uw.edu" class="external-link">IDL</a>. You should change this to your own
+server or a public CDN.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">spec</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
 <span>  meta<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
@@ -177,6 +181,43 @@ remote source.</p>
 <span><span class="fu"><a href="../reference/mosaic.html">mosaic</a></span><span class="op">(</span><span class="va">spec</span><span class="op">)</span></span></code></pre></div>
 <div class="mosaic html-widget html-fill-item" id="htmlwidget-36aa3d2a04d42bbc2145" style="width:700px;height:432.632880098888px;"></div>
 <script type="application/json" data-for="htmlwidget-36aa3d2a04d42bbc2145">{"x":{"api":null,"spec":{"meta":{"title":"Airline Travelers","description":"A labeled line chart comparing airport travelers in 2019 and 2020.","credit":"Adapted from an [Observable Plot example](https://observablehq.com/@observablehq/plot-labeled-line-chart)."},"data":{"travelers":{"file":"data/travelers.parquet"},"endpoint":"SELECT * FROM travelers ORDER BY date DESC LIMIT 1\n"},"plot":[{"mark":"ruleY","data":0},{"mark":"lineY","data":{"from":"travelers"},"x":"date","y":"previous","strokeOpacity":0.35},{"mark":"lineY","data":{"from":"travelers"},"x":"date","y":"current"},{"mark":"text","data":{"from":"endpoint"},"x":"date","y":"previous","text":["2019"],"fillOpacity":0.5,"lineAnchor":"bottom","dy":-6},{"mark":"text","data":{"from":"endpoint"},"x":"date","y":"current","text":["2020"],"lineAnchor":"top","dy":6}],"yGrid":true,"yLabel":"↑ Travelers per day","yTickFormat":"s"},"data":null,"baseURL":"https://pub-1da360b43ceb401c809f68ca37c7f8a4.r2.dev/"},"evals":[],"jsHooks":[]}</script>
+</div>
+<div class="section level2">
+<h2 id="inputs">Inputs<a class="anchor" aria-label="anchor" href="#inputs"></a>
+</h2>
+<p>Mosaic supports interactive inputs that can be used to filter or
+modify the plot. Here’s an example:</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">spec</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
+<span>  meta<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
+<span>    title<span class="op">=</span><span class="st">"Aeromagnetic Survey"</span>,</span>
+<span>    description<span class="op">=</span><span class="st">"A raster visualization of the 1955 [Great Britain aeromagnetic survey](https://www.bgs.ac.uk/datasets/gb-aeromagnetic-survey/), which measured the Earth’s magnetic field by plane. Each sample recorded the longitude and latitude alongside the strength of the [IGRF](https://www.ncei.noaa.gov/products/international-geomagnetic-reference-field) in [nanoteslas](https://en.wikipedia.org/wiki/Tesla_(unit)). This example demonstrates both raster interpolation and smoothing (blur) options."</span>,</span>
+<span>    credit<span class="op">=</span><span class="st">"Adapted from an [Observable Plot example](https://observablehq.com/@observablehq/plot-igfr90-raster)."</span></span>
+<span>  <span class="op">)</span>,</span>
+<span>  data<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>ca55<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>file<span class="op">=</span><span class="st">"data/ca55-south.parquet"</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  params<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>interp<span class="op">=</span><span class="st">"random-walk"</span>, blur<span class="op">=</span><span class="fl">0</span><span class="op">)</span>,</span>
+<span>  vconcat<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>hconcat<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
+<span>      <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>input<span class="op">=</span><span class="st">"menu"</span>,label<span class="op">=</span><span class="st">"Interpolation Method"</span>,options<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">"none"</span>,<span class="st">"nearest"</span>,<span class="st">"barycentric"</span>,<span class="st">"random-walk"</span><span class="op">)</span>,as<span class="op">=</span><span class="st">"$interp"</span><span class="op">)</span>,</span>
+<span>      <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>hspace<span class="op">=</span><span class="st">"1em"</span><span class="op">)</span>,</span>
+<span>      <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>input<span class="op">=</span><span class="st">"slider"</span>,label<span class="op">=</span><span class="st">"Blur"</span>,min<span class="op">=</span><span class="fl">0</span>,max<span class="op">=</span><span class="fl">100</span>,as<span class="op">=</span><span class="st">"$blur"</span><span class="op">)</span></span>
+<span>    <span class="op">)</span><span class="op">)</span>,</span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>vspace<span class="op">=</span><span class="st">"1em"</span><span class="op">)</span>,</span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>plot<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
+<span>      <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
+<span>        mark<span class="op">=</span><span class="st">"raster"</span>,</span>
+<span>        data<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>from<span class="op">=</span><span class="st">"ca55"</span><span class="op">)</span>,x<span class="op">=</span><span class="st">"LONGITUDE"</span>,y<span class="op">=</span><span class="st">"LATITUDE"</span>,</span>
+<span>        fill<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>max<span class="op">=</span><span class="st">"MAG_IGRF90"</span><span class="op">)</span>,</span>
+<span>        interpolate<span class="op">=</span><span class="st">"$interp"</span>,</span>
+<span>        bandwidth<span class="op">=</span><span class="st">"$blur"</span></span>
+<span>      <span class="op">)</span></span>
+<span>    <span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/mosaic.html">mosaic</a></span><span class="op">(</span><span class="va">spec</span><span class="op">)</span></span></code></pre></div>
+<div class="mosaic html-widget html-fill-item" id="htmlwidget-febe03efa1a2d8d52a86" style="width:700px;height:432.632880098888px;"></div>
+<script type="application/json" data-for="htmlwidget-febe03efa1a2d8d52a86">{"x":{"api":null,"spec":{"meta":{"title":"Aeromagnetic Survey","description":"A raster visualization of the 1955 [Great Britain aeromagnetic survey](https://www.bgs.ac.uk/datasets/gb-aeromagnetic-survey/), which measured the Earth’s magnetic field by plane. Each sample recorded the longitude and latitude alongside the strength of the [IGRF](https://www.ncei.noaa.gov/products/international-geomagnetic-reference-field) in [nanoteslas](https://en.wikipedia.org/wiki/Tesla_(unit)). This example demonstrates both raster interpolation and smoothing (blur) options.","credit":"Adapted from an [Observable Plot example](https://observablehq.com/@observablehq/plot-igfr90-raster)."},"data":{"ca55":{"file":"data/ca55-south.parquet"}},"params":{"interp":"random-walk","blur":0},"vconcat":[{"hconcat":[{"input":"menu","label":"Interpolation Method","options":["none","nearest","barycentric","random-walk"],"as":"$interp"},{"hspace":"1em"},{"input":"slider","label":"Blur","min":0,"max":100,"as":"$blur"}]},{"vspace":"1em"},{"plot":[{"mark":"raster","data":{"from":"ca55"},"x":"LONGITUDE","y":"LATITUDE","fill":{"max":"MAG_IGRF90"},"interpolate":"$interp","bandwidth":"$blur"}]}]},"data":null,"baseURL":"https://pub-1da360b43ceb401c809f68ca37c7f8a4.r2.dev/"},"evals":[],"jsHooks":[]}</script>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>
