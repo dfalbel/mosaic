@@ -87,7 +87,11 @@ mosaic(
 ## Loading data
 
 You can also use the `data` attribute in the spec to load data asyncronously into the plot.
-This is useful to acquire data from a remote source.
+This is useful to acquire data from a remote source. 
+
+Files are downloaded from a URL relative to the `baseURL` parameter in the `mosaic` function. 
+By default, this is pointing to a examples server hosted by the [IDL](https://idl.uw.edu). You should
+change this to your own server or a public CDN.
 
 ```{r}
 spec <- list(
@@ -110,6 +114,42 @@ spec <- list(
   yGrid=TRUE,
   yLabel="↑ Travelers per day",
   yTickFormat="s"
+)
+
+mosaic(spec)
+```
+
+## Inputs
+
+Mosaic supports interactive inputs that can be used to filter or modify the plot.
+Here's an example:
+
+```{r}
+spec <- list(
+  meta=list(
+    title="Aeromagnetic Survey",
+    description="A raster visualization of the 1955 [Great Britain aeromagnetic survey](https://www.bgs.ac.uk/datasets/gb-aeromagnetic-survey/), which measured the Earth’s magnetic field by plane. Each sample recorded the longitude and latitude alongside the strength of the [IGRF](https://www.ncei.noaa.gov/products/international-geomagnetic-reference-field) in [nanoteslas](https://en.wikipedia.org/wiki/Tesla_(unit)). This example demonstrates both raster interpolation and smoothing (blur) options.",
+    credit="Adapted from an [Observable Plot example](https://observablehq.com/@observablehq/plot-igfr90-raster)."
+  ),
+  data=list(ca55=list(file="data/ca55-south.parquet")),
+  params=list(interp="random-walk", blur=0),
+  vconcat=list(
+    list(hconcat=list(
+      list(input="menu",label="Interpolation Method",options=list("none","nearest","barycentric","random-walk"),as="$interp"),
+      list(hspace="1em"),
+      list(input="slider",label="Blur",min=0,max=100,as="$blur")
+    )),
+    list(vspace="1em"),
+    list(plot=list(
+      list(
+        mark="raster",
+        data=list(from="ca55"),x="LONGITUDE",y="LATITUDE",
+        fill=list(max="MAG_IGRF90"),
+        interpolate="$interp",
+        bandwidth="$blur"
+      )
+    ))
+  )
 )
 
 mosaic(spec)
