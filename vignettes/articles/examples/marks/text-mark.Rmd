@@ -1,0 +1,132 @@
+---
+title: "text Mark"
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(mosaic)
+```
+
+The `text` mark displays text labels at specified positions. It's useful for annotations, labels, and textual data visualization.
+
+## Basic Example
+
+```{r}
+# Sample data
+data <- data.frame(
+  category = c("A", "B", "C", "D", "E", "F", "G", "H"),
+  value = c(2, 8, 3, 7, 5, 4, 6, 1),
+  label = c("A", "B", "C", "D", "E", "F", "G", "H")
+)
+
+spec <- list(
+  plot = list(
+    list(
+      mark = "text",
+      data = list(from = "sample_data"),
+      x = "category",
+      y = "value",
+      text = "label",
+      fill = "steelblue"
+    )
+  )
+)
+
+mosaic(spec, sample_data = data)
+```
+
+## Customization Options
+
+### Custom Text Content
+
+```{r}
+# Data with custom labels
+labeled_data <- data.frame(
+  x_pos = c(1, 2, 3, 4, 5),
+  y_pos = c(2, 4, 1, 5, 3),
+  labels = c("Start", "Peak", "Low", "High", "End")
+)
+
+spec_custom <- list(
+  plot = list(
+    list(
+      mark = "text",
+      data = list(from = "labeled_data"),
+      x = "x_pos",
+      y = "y_pos",
+      text = "labels",
+      fill = "darkred",
+      fontSize = 14
+    )
+  )
+)
+
+mosaic(spec_custom, labeled_data = labeled_data)
+```
+
+### Text with Numeric Values
+
+```{r}
+# Display actual values as text
+numeric_data <- data.frame(
+  category = c("Q1", "Q2", "Q3", "Q4"),
+  sales = c(150, 230, 180, 290)
+)
+
+spec_numeric <- list(
+  plot = list(
+    list(
+      mark = "text",
+      data = list(from = "numeric_data"),
+      x = "category",
+      y = "sales",
+      text = "sales",
+      fill = "navy",
+      fontSize = 12
+    )
+  )
+)
+
+mosaic(spec_numeric, numeric_data = numeric_data)
+```
+
+### Combined with Other Marks
+
+```{r}
+# Bars with value labels
+spec_combined <- list(
+  plot = list(
+    list(
+      mark = "barY",
+      data = list(from = "numeric_data"),
+      x = "category",
+      y = "sales",
+      fill = "lightblue"
+    ),
+    list(
+      mark = "text",
+      data = list(from = "numeric_data"),
+      x = "category",
+      y = "sales",
+      text = "sales",
+      fill = "black",
+      dy = -5
+    )
+  )
+)
+
+mosaic(spec_combined, numeric_data = numeric_data)
+```
+
+## Use Cases
+
+- **Data Labels**: Adding value labels to charts
+- **Annotations**: Highlighting specific points or regions
+- **Category Labels**: Custom labeling of categorical data
+- **Text-based Visualizations**: Word clouds or text positioning

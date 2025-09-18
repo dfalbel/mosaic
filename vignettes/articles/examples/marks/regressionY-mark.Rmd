@@ -1,0 +1,165 @@
+---
+title: "regressionY Mark"
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(mosaic)
+```
+
+The `regressionY` mark automatically fits and displays regression lines through data points. It's invaluable for trend analysis and showing relationships between variables.
+
+## Basic Example
+
+```{r}
+# Generate sample data with a clear trend
+set.seed(123)
+data <- data.frame(
+  x = 1:20,
+  y = 2 * (1:20) + rnorm(20, 0, 3)
+)
+
+spec <- list(
+  plot = list(
+    list(
+      mark = "dot",
+      data = list(from = "sample_data"),
+      x = "x",
+      y = "y",
+      fill = "lightblue",
+      r = 3
+    ),
+    list(
+      mark = "regressionY",
+      data = list(from = "sample_data"),
+      x = "x",
+      y = "y",
+      stroke = "steelblue",
+      strokeWidth = 2
+    )
+  )
+)
+
+mosaic(spec, sample_data = data)
+```
+
+## Customization Options
+
+### Different Regression Types
+
+```{r}
+# Polynomial relationship
+set.seed(42)
+poly_data <- data.frame(
+  x = seq(-3, 3, length.out = 30),
+  y = -0.5 * seq(-3, 3, length.out = 30)^2 + 2 * seq(-3, 3, length.out = 30) + rnorm(30, 0, 0.5)
+)
+
+spec_poly <- list(
+  plot = list(
+    list(
+      mark = "dot",
+      data = list(from = "poly_data"),
+      x = "x",
+      y = "y",
+      fill = "coral",
+      r = 3
+    ),
+    list(
+      mark = "regressionY",
+      data = list(from = "poly_data"),
+      x = "x",
+      y = "y",
+      stroke = "darkred",
+      strokeWidth = 2
+    )
+  )
+)
+
+mosaic(spec_poly, poly_data = poly_data)
+```
+
+### Multiple Groups
+
+```{r}
+# Data with different groups
+set.seed(789)
+grouped_data <- data.frame(
+  x = rep(1:15, times = 3),
+  y = c(
+    2 * (1:15) + rnorm(15, 0, 2),      # Group A: positive slope
+    -1.5 * (1:15) + 20 + rnorm(15, 0, 2), # Group B: negative slope
+    0.3 * (1:15) + 8 + rnorm(15, 0, 1)    # Group C: slight positive
+  ),
+  group = rep(c("Group A", "Group B", "Group C"), each = 15)
+)
+
+spec_groups <- list(
+  plot = list(
+    list(
+      mark = "dot",
+      data = list(from = "grouped_data"),
+      x = "x",
+      y = "y",
+      fill = list(column = "group"),
+      r = 3,
+      fillOpacity = 0.7
+    ),
+    list(
+      mark = "regressionY",
+      data = list(from = "grouped_data"),
+      x = "x",
+      y = "y",
+      stroke = list(column = "group"),
+      strokeWidth = 2
+    )
+  )
+)
+
+mosaic(spec_groups, grouped_data = grouped_data)
+```
+
+### Using Real Data
+
+```{r}
+# Using penguins data for regression analysis
+spec_penguins <- list(
+  plot = list(
+    list(
+      mark = "dot",
+      data = list(from = "penguins"),
+      x = "body_mass_g",
+      y = "flipper_length_mm",
+      fill = list(column = "species"),
+      r = 3,
+      fillOpacity = 0.6
+    ),
+    list(
+      mark = "regressionY",
+      data = list(from = "penguins"),
+      x = "body_mass_g",
+      y = "flipper_length_mm",
+      stroke = "black",
+      strokeWidth = 2
+    )
+  ),
+  xLabel = "Body Mass (g)",
+  yLabel = "Flipper Length (mm)"
+)
+
+mosaic(spec_penguins, penguins = palmerpenguins::penguins)
+```
+
+## Use Cases
+
+- **Trend Analysis**: Identifying and visualizing trends in data
+- **Predictive Modeling**: Showing fitted models alongside data
+- **Correlation Visualization**: Making relationships between variables explicit
+- **Scientific Research**: Standard tool for showing statistical relationships
+- **Business Intelligence**: Forecasting and trend analysis in business data

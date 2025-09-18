@@ -1,0 +1,117 @@
+---
+title: "lineY Mark"
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(mosaic)
+```
+
+The `lineY` mark creates line charts, connecting data points with lines. It's ideal for showing trends over continuous data.
+
+## Basic Example
+
+```{r}
+# Sample data
+data <- data.frame(
+  category = c("A", "B", "C", "D", "E", "F", "G", "H"),
+  value = c(2, 8, 3, 7, 5, 4, 6, 1)
+)
+
+spec <- list(
+  plot = list(
+    list(
+      mark = "lineY",
+      data = list(from = "sample_data"),
+      x = "category",
+      y = "value",
+      stroke = "steelblue"
+    )
+  )
+)
+
+mosaic(spec, sample_data = data)
+```
+
+## Customization Options
+
+### With Markers
+
+```{r}
+spec_markers <- list(
+  plot = list(
+    list(
+      mark = "lineY",
+      data = list(from = "sample_data"),
+      x = "category",
+      y = "value",
+      stroke = "steelblue",
+      marker = "circle"
+    )
+  )
+)
+
+mosaic(spec_markers, sample_data = data)
+```
+
+### Curved Lines
+
+```{r}
+spec_curved <- list(
+  plot = list(
+    list(
+      mark = "lineY",
+      data = list(from = "sample_data"),
+      x = "category",
+      y = "value",
+      stroke = "steelblue",
+      curve = "monotone-x",
+      marker = "circle"
+    )
+  )
+)
+
+mosaic(spec_curved, sample_data = data)
+```
+
+### Multiple Lines
+
+```{r}
+# Time series data
+time_data <- data.frame(
+  date = rep(as.Date("2023-01-01") + 0:11, times = 2),
+  series = rep(c("Series A", "Series B"), each = 12),
+  value = c(
+    c(10, 12, 8, 15, 18, 14, 20, 16, 22, 19, 25, 21),
+    c(8, 10, 12, 9, 14, 16, 13, 18, 15, 20, 17, 23)
+  )
+)
+
+spec_multiple <- list(
+  plot = list(
+    list(
+      mark = "lineY",
+      data = list(from = "time_data"),
+      x = "date",
+      y = "value",
+      stroke = list(column = "series"),
+      marker = "circle"
+    )
+  )
+)
+
+mosaic(spec_multiple, time_data = time_data)
+```
+
+## Use Cases
+
+- **Time Series**: Perfect for displaying data changes over time
+- **Trends**: Shows patterns and trends in continuous data
+- **Comparisons**: Multiple lines can compare different series
+- **Scientific Data**: Common in research for showing relationships between variables

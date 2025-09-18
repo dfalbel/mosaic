@@ -1,0 +1,143 @@
+---
+title: "tickY Mark"
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(mosaic)
+```
+
+The `tickY` mark creates vertical tick marks. It's useful for showing discrete data points, distributions, or as reference marks.
+
+## Basic Example
+
+```{r}
+# Sample data
+data <- data.frame(
+  category = c("A", "B", "C", "D", "E", "F", "G", "H"),
+  value = c(2, 8, 3, 7, 5, 4, 6, 1)
+)
+
+spec <- list(
+  plot = list(
+    list(
+      mark = "tickY",
+      data = list(from = "sample_data"),
+      x = "category",
+      y = "value",
+      stroke = "steelblue"
+    )
+  )
+)
+
+mosaic(spec, sample_data = data)
+```
+
+## Customization Options
+
+### Custom Styling
+
+```{r}
+spec_styled <- list(
+  plot = list(
+    list(
+      mark = "tickY",
+      data = list(from = "sample_data"),
+      x = "category",
+      y = "value",
+      stroke = "darkred",
+      strokeWidth = 3
+    )
+  )
+)
+
+mosaic(spec_styled, sample_data = data)
+```
+
+### Distribution Visualization
+
+```{r}
+# Random data for distribution
+set.seed(123)
+dist_data <- data.frame(
+  group = rep(c("Group A", "Group B", "Group C"), each = 50),
+  value = c(
+    rnorm(50, mean = 10, sd = 2),
+    rnorm(50, mean = 15, sd = 3),
+    rnorm(50, mean = 12, sd = 2.5)
+  )
+)
+
+spec_distribution <- list(
+  plot = list(
+    list(
+      mark = "tickY",
+      data = list(from = "dist_data"),
+      x = "group",
+      y = "value",
+      stroke = list(column = "group"),
+      strokeOpacity = 0.6
+    )
+  )
+)
+
+mosaic(spec_distribution, dist_data = dist_data)
+```
+
+### Combined with Other Marks
+
+```{r}
+# Ticks with summary statistics
+summary_data <- data.frame(
+  category = c("A", "B", "C", "D"),
+  mean_value = c(10, 15, 12, 18),
+  individual_values = I(list(
+    c(8, 9, 10, 11, 12),
+    c(13, 14, 15, 16, 17),
+    c(10, 11, 12, 13, 14),
+    c(16, 17, 18, 19, 20)
+  ))
+)
+
+# Expand data for individual points
+expanded_data <- data.frame(
+  category = rep(summary_data$category, sapply(summary_data$individual_values, length)),
+  value = unlist(summary_data$individual_values)
+)
+
+spec_combined <- list(
+  plot = list(
+    list(
+      mark = "tickY",
+      data = list(from = "expanded_data"),
+      x = "category",
+      y = "value",
+      stroke = "lightblue",
+      strokeOpacity = 0.7
+    ),
+    list(
+      mark = "dot",
+      data = list(from = "summary_data"),
+      x = "category",
+      y = "mean_value",
+      fill = "red",
+      r = 4
+    )
+  )
+)
+
+mosaic(spec_combined, expanded_data = expanded_data, summary_data = summary_data)
+```
+
+## Use Cases
+
+- **Distribution Plots**: Showing individual data points in distributions
+- **Rug Plots**: Adding marginal distributions to scatter plots
+- **Data Points**: Marking specific values or events
+- **Reference Lines**: Creating visual reference points on charts

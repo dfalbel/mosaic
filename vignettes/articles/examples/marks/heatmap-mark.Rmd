@@ -1,0 +1,214 @@
+---
+title: "heatmap Mark"
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(mosaic)
+```
+
+The `heatmap` mark creates rectangular heatmaps where color intensity represents data values. It's perfect for visualizing matrices, correlation data, or any grid-based quantitative information.
+
+## Basic Example
+
+```{r}
+# Create a simple heatmap dataset
+heatmap_data <- expand.grid(
+  x = 1:8,
+  y = 1:6
+)
+heatmap_data$value <- sin(heatmap_data$x * 0.5) * cos(heatmap_data$y * 0.3) * 10
+
+spec <- list(
+  plot = list(
+    list(
+      mark = "rect",
+      data = list(from = "heatmap_data"),
+      x = "x",
+      y = "y",
+      fill = list(column = "value")
+    )
+  )
+)
+
+mosaic(spec, heatmap_data = heatmap_data)
+```
+
+## Customization Options
+
+### Correlation Matrix
+
+```{r}
+# Create a correlation matrix visualization
+set.seed(123)
+vars <- c("Var1", "Var2", "Var3", "Var4", "Var5")
+n_vars <- length(vars)
+
+# Create correlation matrix data
+correlation_data <- expand.grid(
+  x = vars,
+  y = vars
+)
+
+# Generate realistic correlation values
+correlation_data$correlation <- c(
+  1.0, 0.3, -0.2, 0.7, 0.1,    # Var1 correlations
+  0.3, 1.0, 0.5, -0.1, 0.8,    # Var2 correlations
+  -0.2, 0.5, 1.0, 0.2, 0.4,    # Var3 correlations
+  0.7, -0.1, 0.2, 1.0, -0.3,   # Var4 correlations
+  0.1, 0.8, 0.4, -0.3, 1.0     # Var5 correlations
+)
+
+spec_corr <- list(
+  plot = list(
+    list(
+      mark = "rect",
+      data = list(from = "correlation_data"),
+      x = "x",
+      y = "y",
+      fill = "correlation",
+      stroke = "white",
+      strokeWidth = 1
+    )
+  ),
+  colorScheme = "rdbu",
+  xLabel = "Variables",
+  yLabel = "Variables"
+)
+
+mosaic(spec_corr, correlation_data = correlation_data)
+```
+
+### Time Series Heatmap
+
+```{r}
+# Create a time-based heatmap (e.g., hourly data by day)
+days <- c("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun")
+hours <- 0:23
+
+time_data <- expand.grid(
+  day = days,
+  hour = hours
+)
+
+# Simulate activity patterns (higher during day, weekends different)
+set.seed(456)
+time_data$activity <- with(time_data, {
+  base_activity <- ifelse(hour >= 6 & hour <= 22,
+                         sin((hour - 6) * pi / 16) * 50 + 30,
+                         runif(length(hour), 5, 15))
+
+  # Weekend modifier
+  weekend_modifier <- ifelse(day %in% c("Sat", "Sun"), 1.2, 1.0)
+
+  pmax(0, base_activity * weekend_modifier + rnorm(length(hour), 0, 5))
+})
+
+spec_time <- list(
+  plot = list(
+    list(
+      mark = "rect",
+      data = list(from = "time_data"),
+      x = "hour",
+      y = "day",
+      fill = list(column = "activity"),
+      stroke = "white",
+      strokeWidth = 0.5
+    )
+  ),
+  colorScheme = "plasma",
+  xLabel = "Hour of Day",
+  yLabel = "Day of Week"
+)
+
+mosaic(spec_time, time_data = time_data)
+```
+
+### Geographic Grid
+
+```{r}
+# Simulate a geographic heatmap
+grid_size <- 10
+geo_data <- expand.grid(
+  longitude = seq(-5, 5, length.out = grid_size),
+  latitude = seq(-5, 5, length.out = grid_size)
+)
+
+# Create a pattern that resembles geographic data
+geo_data$temperature <- with(geo_data, {
+  # Distance from center
+  distance <- sqrt(longitude^2 + latitude^2)
+  # Temperature decreases with distance, with some noise
+  25 - 2 * distance + rnorm(nrow(geo_data), 0, 1)
+})
+
+spec_geo <- list(
+  plot = list(
+    list(
+      mark = "rect",
+      data = list(from = "geo_data"),
+      x = "longitude",
+      y = "latitude",
+      fill = list(column = "temperature"),
+      stroke = "none"
+    )
+  ),
+  colorScheme = "turbo",
+  xLabel = "Longitude",
+  yLabel = "Latitude"
+)
+
+mosaic(spec_geo, geo_data = geo_data)
+```
+
+### Annotated Heatmap
+
+```{r}
+# Small heatmap with text annotations
+small_data <- expand.grid(
+  category_x = c("A", "B", "C", "D"),
+  category_y = c("Type 1", "Type 2", "Type 3")
+)
+
+small_data$value <- c(23, 45, 12, 67, 34, 56, 78, 29, 41, 33, 52, 18)
+
+spec_annotated <- list(
+  plot = list(
+    list(
+      mark = "rect",
+      data = list(from = "small_data"),
+      x = "category_x",
+      y = "category_y",
+      fill = list(column = "value"),
+      stroke = "white",
+      strokeWidth = 2
+    ),
+    list(
+      mark = "text",
+      data = list(from = "small_data"),
+      x = "category_x",
+      y = "category_y",
+      text = "value",
+      fill = "white",
+      fontSize = 12
+    )
+  ),
+  colorScheme = "viridis"
+)
+
+mosaic(spec_annotated, small_data = small_data)
+```
+
+## Use Cases
+
+- **Correlation Analysis**: Visualizing correlation matrices between variables
+- **Time Patterns**: Showing patterns across time periods (hourly, daily, seasonal)
+- **Geographic Data**: Displaying spatial patterns and regional differences
+- **Performance Metrics**: Showing performance across different categories or time periods
+- **Scientific Data**: Visualizing any matrix-structured quantitative data

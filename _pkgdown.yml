@@ -2,3 +2,38 @@ url: https://dfalbel.github.io/mosaic/
 template:
   bootstrap: 5
 
+navbar:
+  structure:
+    left: [intro, reference, articles, examples, tutorials, news]
+    right: [search, github]
+  components:
+    articles:
+      text: Articles
+      menu:
+      - text: Get Started
+        href: articles/get-started.html
+    examples:
+      text: Examples
+      menu:
+      - text: "Mark Types"
+      - text: "Area Charts"
+        href: articles/examples/marks/areaY-mark.html
+      - text: "Bar Charts"
+        href: articles/examples/marks/barY-mark.html
+      - text: "Contour Plots"
+        href: articles/examples/marks/contour-mark.html
+      - text: "Scatter Plots"
+        href: articles/examples/marks/dot-mark.html
+      - text: "Heatmaps"
+        href: articles/examples/marks/heatmap-mark.html
+      - text: "Hexbin Plots"
+        href: articles/examples/marks/hexbin-mark.html
+      - text: "Line Charts"
+        href: articles/examples/marks/lineY-mark.html
+      - text: "Regression Lines"
+        href: articles/examples/marks/regressionY-mark.html
+      - text: "Text Annotations"
+        href: articles/examples/marks/text-mark.html
+      - text: "Tick Marks"
+        href: articles/examples/marks/tickY-mark.html
+

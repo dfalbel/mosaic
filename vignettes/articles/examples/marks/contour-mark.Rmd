@@ -1,0 +1,209 @@
+---
+title: "contour Mark"
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(mosaic)
+```
+
+The `contour` mark creates contour lines that show levels of equal values across a 2D surface. It's excellent for visualizing density distributions, topographic data, or any continuous surface.
+
+## Basic Example
+
+```{r}
+# Generate 2D density data
+set.seed(123)
+n <- 1000
+data <- data.frame(
+  x = rnorm(n, 50, 15),
+  y = rnorm(n, 50, 15)
+)
+
+spec <- list(
+  plot = list(
+    list(
+      mark = "contour",
+      data = list(from = "sample_data"),
+      x = "x",
+      y = "y",
+      stroke = "steelblue"
+    )
+  )
+)
+
+mosaic(spec, sample_data = data)
+```
+
+## Customization Options
+
+### Multiple Contour Levels
+
+```{r}
+# Bivariate normal with correlation
+set.seed(456)
+n <- 2000
+
+# Create correlated variables
+x1 <- rnorm(n)
+x2 <- 0.7 * x1 + sqrt(1 - 0.7^2) * rnorm(n)
+
+correlated_data <- data.frame(
+  x = x1,
+  y = x2
+)
+
+spec_levels <- list(
+  plot = list(
+    list(
+      mark = "contour",
+      data = list(from = "correlated_data"),
+      x = "x",
+      y = "y",
+      stroke = "darkblue",
+      strokeWidth = 1.5
+    )
+  )
+)
+
+mosaic(spec_levels, correlated_data = correlated_data)
+```
+
+### Multiple Distributions
+
+```{r}
+# Create data with multiple peaks
+set.seed(789)
+n_per_group <- 400
+
+multi_peak_data <- data.frame(
+  x = c(
+    rnorm(n_per_group, -1, 0.5),   # Peak 1
+    rnorm(n_per_group, 1, 0.5),    # Peak 2
+    rnorm(n_per_group, 0, 0.3)     # Peak 3 (center)
+  ),
+  y = c(
+    rnorm(n_per_group, 1, 0.4),    # Peak 1
+    rnorm(n_per_group, -1, 0.4),   # Peak 2
+    rnorm(n_per_group, 0, 0.3)     # Peak 3 (center)
+  )
+)
+
+spec_multi <- list(
+  plot = list(
+    list(
+      mark = "contour",
+      data = list(from = "multi_peak_data"),
+      x = "x",
+      y = "y",
+      stroke = "purple",
+      strokeWidth = 2
+    )
+  )
+)
+
+mosaic(spec_multi, multi_peak_data = multi_peak_data)
+```
+
+### Combined with Points
+
+```{r}
+# Show both the data points and contours
+spec_combined <- list(
+  plot = list(
+    list(
+      mark = "dot",
+      data = list(from = "correlated_data"),
+      x = "x",
+      y = "y",
+      fill = "lightblue",
+      fillOpacity = 0.3,
+      r = 2
+    ),
+    list(
+      mark = "contour",
+      data = list(from = "correlated_data"),
+      x = "x",
+      y = "y",
+      stroke = "navy",
+      strokeWidth = 2
+    )
+  )
+)
+
+mosaic(spec_combined, correlated_data = correlated_data)
+```
+
+### Filled Contours
+
+```{r}
+# Using filled contours for better visualization
+spec_filled <- list(
+  plot = list(
+    list(
+      mark = "contour",
+      data = list(from = "multi_peak_data"),
+      x = "x",
+      y = "y",
+      fill = "density",
+      stroke = "white",
+      strokeWidth = 1
+    )
+  ),
+  colorScheme = "viridis"
+)
+
+mosaic(spec_filled, multi_peak_data = multi_peak_data)
+```
+
+## Advanced Example
+
+```{r}
+# Simulate a more complex surface (e.g., a mathematical function)
+create_surface_data <- function() {
+  x_seq <- seq(-3, 3, length.out = 50)
+  y_seq <- seq(-3, 3, length.out = 50)
+  grid <- expand.grid(x = x_seq, y = y_seq)
+
+  # Create a complex surface
+  grid$z <- with(grid, sin(sqrt(x^2 + y^2)) * exp(-0.1 * (x^2 + y^2)))
+
+  return(grid)
+}
+
+surface_data <- create_surface_data()
+
+spec_surface <- list(
+  plot = list(
+    list(
+      mark = "contour",
+      data = list(from = "surface_data"),
+      x = "x",
+      y = "y",
+      fill = "z",
+      stroke = "black",
+      strokeWidth = 0.5,
+      strokeOpacity = 0.7
+    )
+  ),
+  colorScheme = "spectral",
+  xLabel = "X coordinate",
+  yLabel = "Y coordinate"
+)
+
+mosaic(spec_surface, surface_data = surface_data)
+```
+
+## Use Cases
+
+- **Density Visualization**: Showing probability density for 2D distributions
+- **Topographic Maps**: Representing elevation or other geographic data
+- **Scientific Data**: Visualizing continuous fields in physics, chemistry, or biology
+- **Statistical Analysis**: Exploring bivariate distributions and their properties
+- **Function Visualization**: Displaying mathematical functions of two variables

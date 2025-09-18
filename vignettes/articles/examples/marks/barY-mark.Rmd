@@ -1,0 +1,92 @@
+---
+title: "barY Mark"
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(mosaic)
+```
+
+The `barY` mark creates vertical bar charts. It draws rectangular bars from a baseline (typically zero) to the specified y value.
+
+## Basic Example
+
+```{r}
+# Sample data
+data <- data.frame(
+  category = c("A", "B", "C", "D", "E", "F", "G", "H"),
+  value = c(2, 8, 3, 7, 5, 4, 6, 1)
+)
+
+spec <- list(
+  plot = list(
+    list(
+      mark = "barY",
+      data = list(from = "sample_data"),
+      x = "category",
+      y = "value",
+      fill = "steelblue"
+    )
+  )
+)
+
+mosaic(spec, sample_data = data)
+```
+
+## Customization Options
+
+### Color by Category
+
+```{r}
+spec_colored <- list(
+  plot = list(
+    list(
+      mark = "barY",
+      data = list(from = "sample_data"),
+      x = "category",
+      y = "value",
+      fill = list(column = "category")
+    )
+  )
+)
+
+mosaic(spec_colored, sample_data = data)
+```
+
+### Grouped Bars
+
+```{r}
+# Sample data with groups
+grouped_data <- data.frame(
+  category = rep(c("A", "B", "C", "D"), each = 2),
+  group = rep(c("Group 1", "Group 2"), times = 4),
+  value = c(2, 3, 8, 6, 3, 4, 7, 5)
+)
+
+spec_grouped <- list(
+  plot = list(
+    list(
+      mark = "barY",
+      data = list(from = "grouped_data"),
+      x = "category",
+      y = "value",
+      fill = list(column = "group")
+    )
+  )
+)
+
+mosaic(spec_grouped, grouped_data = grouped_data)
+```
+
+## Use Cases
+
+- **Categorical Data**: Perfect for displaying values across discrete categories
+- **Comparisons**: Easy to compare values between different categories
+- **Frequency Counts**: Ideal for showing counts or frequencies of categorical data
+- **Survey Results**: Commonly used for displaying survey response distributions

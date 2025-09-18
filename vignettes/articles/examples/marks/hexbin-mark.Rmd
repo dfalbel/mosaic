@@ -1,0 +1,175 @@
+---
+title: "hexbin Mark"
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(mosaic)
+```
+
+The `hexbin` mark creates hexagonal binning visualizations, perfect for displaying density in large scatter plots where individual points would overlap and create overplotting issues.
+
+## Basic Example
+
+```{r}
+# Generate dense scatter plot data
+set.seed(123)
+n <- 1000
+data <- data.frame(
+  x = rnorm(n, 50, 15),
+  y = rnorm(n, 50, 15)
+)
+
+spec <- list(
+  plot = list(
+    list(
+      mark = "hexbin",
+      data = list(from = "sample_data"),
+      x = "x",
+      y = "y",
+      fill = list(count = NULL)
+    )
+  )
+)
+
+mosaic(spec, sample_data = data)
+```
+
+## Customization Options
+
+### Custom Color Scheme
+
+```{r}
+# Bivariate normal distribution
+set.seed(456)
+n <- 2000
+bivar_data <- data.frame(
+  x = rnorm(n, 0, 1),
+  y = rnorm(n, 0, 1)
+)
+
+spec_colored <- list(
+  plot = list(
+    list(
+      mark = "hexbin",
+      data = list(from = "bivar_data"),
+      x = "x",
+      y = "y",
+      fill = list(count = NULL),
+      fillOpacity = 0.8
+    )
+  ),
+  colorScheme = "viridis"
+)
+
+mosaic(spec_colored, bivar_data = bivar_data)
+```
+
+### Multiple Distributions
+
+```{r}
+# Create data with multiple clusters
+set.seed(789)
+n_per_cluster <- 500
+
+cluster_data <- data.frame(
+  x = c(
+    rnorm(n_per_cluster, 20, 5),   # Cluster 1
+    rnorm(n_per_cluster, 60, 8),   # Cluster 2
+    rnorm(n_per_cluster, 40, 6)    # Cluster 3
+  ),
+  y = c(
+    rnorm(n_per_cluster, 30, 7),   # Cluster 1
+    rnorm(n_per_cluster, 70, 5),   # Cluster 2
+    rnorm(n_per_cluster, 20, 4)    # Cluster 3
+  )
+)
+
+spec_clusters <- list(
+  plot = list(
+    list(
+      mark = "hexbin",
+      data = list(from = "cluster_data"),
+      x = "x",
+      y = "y",
+      fill = list(count = NULL)
+    )
+  ),
+  colorScheme = "plasma"
+)
+
+mosaic(spec_clusters, cluster_data = cluster_data)
+```
+
+### With Background Grid
+
+```{r}
+# Hexbin with grid for reference
+spec_grid <- list(
+  plot = list(
+    list(
+      mark = "hexgrid",
+      stroke = "#aaa",
+      strokeOpacity = 0.3
+    ),
+    list(
+      mark = "hexbin",
+      data = list(from = "bivar_data"),
+      x = "x",
+      y = "y",
+      fill = list(count = NULL),
+      fillOpacity = 0.7
+    )
+  )
+)
+
+mosaic(spec_grid, bivar_data = bivar_data)
+```
+
+### Real-world Example
+
+```{r}
+# Using a larger dataset (simulated real-world scenario)
+set.seed(999)
+n <- 5000
+
+# Simulate correlation between variables
+x_vals <- rnorm(n, 100, 20)
+y_vals <- 0.8 * x_vals + rnorm(n, 0, 15)
+
+realworld_data <- data.frame(
+  measurement_a = x_vals,
+  measurement_b = y_vals
+)
+
+spec_realworld <- list(
+  plot = list(
+    list(
+      mark = "hexbin",
+      data = list(from = "realworld_data"),
+      x = "measurement_a",
+      y = "measurement_b",
+      fill = list(count = NULL)
+    )
+  ),
+  xLabel = "Measurement A",
+  yLabel = "Measurement B",
+  colorScheme = "turbo"
+)
+
+mosaic(spec_realworld, realworld_data = realworld_data)
+```
+
+## Use Cases
+
+- **Large Datasets**: Essential for visualizing datasets with thousands or millions of points
+- **Density Visualization**: Shows where data points are most concentrated
+- **Overplotting Solution**: Replaces scatter plots when points overlap too much
+- **Pattern Detection**: Reveals patterns that might be hidden in dense scatter plots
+- **Statistical Analysis**: Useful for exploring bivariate distributions and correlations

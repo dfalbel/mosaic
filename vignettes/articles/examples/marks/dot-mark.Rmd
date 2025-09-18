@@ -1,0 +1,133 @@
+---
+title: "dot Mark"
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(mosaic)
+```
+
+The `dot` mark creates scatter plots by drawing circular dots at specified positions. It's the most versatile mark for exploring relationships between variables.
+
+## Basic Example
+
+```{r}
+# Sample data
+data <- data.frame(
+  x_val = c(1, 2, 3, 4, 5, 6, 7, 8),
+  y_val = c(2, 8, 3, 7, 5, 4, 6, 1)
+)
+
+spec <- list(
+  plot = list(
+    list(
+      mark = "dot",
+      data = list(from = "sample_data"),
+      x = "x_val",
+      y = "y_val",
+      fill = "steelblue"
+    )
+  )
+)
+
+mosaic(spec, sample_data = data)
+```
+
+## Customization Options
+
+### Size and Color Mapping
+
+```{r}
+# Enhanced scatter plot data
+enhanced_data <- data.frame(
+  x = rnorm(50, 10, 2),
+  y = rnorm(50, 15, 3),
+  size = runif(50, 1, 10),
+  category = sample(c("A", "B", "C"), 50, replace = TRUE)
+)
+
+spec_enhanced <- list(
+  plot = list(
+    list(
+      mark = "dot",
+      data = list(from = "enhanced_data"),
+      x = "x",
+      y = "y",
+      r = list(column = "size"),
+      fill = list(column = "category"),
+      fillOpacity = 0.7
+    )
+  )
+)
+
+mosaic(spec_enhanced, enhanced_data = enhanced_data)
+```
+
+### Using Built-in Datasets
+
+```{r}
+# Using the penguins dataset for a classic example
+spec_penguins <- list(
+  plot = list(
+    list(
+      mark = "dot",
+      data = list(from = "penguins"),
+      x = "body_mass_g",
+      y = "flipper_length_mm",
+      fill = list(column = "species"),
+      r = 3,
+      fillOpacity = 0.8
+    )
+  ),
+  xLabel = "Body Mass (g)",
+  yLabel = "Flipper Length (mm)"
+)
+
+mosaic(spec_penguins, penguins = palmerpenguins::penguins)
+```
+
+### Multiple Series
+
+```{r}
+# Multiple related datasets
+set.seed(42)
+multi_data <- data.frame(
+  x = rep(1:20, times = 3),
+  y = c(
+    1:20 + rnorm(20, 0, 2),           # Linear trend
+    sin((1:20) * 0.5) * 5 + 10 + rnorm(20, 0, 1),  # Sine wave
+    20:1 + rnorm(20, 0, 1.5)          # Negative trend
+  ),
+  series = rep(c("Linear", "Sine", "Negative"), each = 20)
+)
+
+spec_multi <- list(
+  plot = list(
+    list(
+      mark = "dot",
+      data = list(from = "multi_data"),
+      x = "x",
+      y = "y",
+      fill = list(column = "series"),
+      r = 4,
+      fillOpacity = 0.8
+    )
+  )
+)
+
+mosaic(spec_multi, multi_data = multi_data)
+```
+
+## Use Cases
+
+- **Correlation Analysis**: Exploring relationships between two continuous variables
+- **Classification**: Visualizing how different groups cluster in 2D space
+- **Outlier Detection**: Identifying unusual data points
+- **Pattern Recognition**: Discovering trends and patterns in data
+- **Scientific Research**: Standard visualization for experimental data
