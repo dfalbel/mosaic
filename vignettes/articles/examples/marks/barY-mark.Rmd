@@ -10,7 +10,7 @@ knitr::opts_chunk$set(
 ```
 
 ```{r setup}
-library(mosaic)
+library(mosaicr)
 ```
 
 The `barY` mark creates vertical bar charts. It draws rectangular bars from a baseline (typically zero) to the specified y value.

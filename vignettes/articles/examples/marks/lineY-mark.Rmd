@@ -10,7 +10,7 @@ knitr::opts_chunk$set(
 ```
 
 ```{r setup}
-library(mosaic)
+library(mosaicr)
 ```
 
 The `lineY` mark creates line charts, connecting data points with lines. It's ideal for showing trends over continuous data.

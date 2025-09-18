@@ -10,7 +10,7 @@ knitr::opts_chunk$set(
 ```
 
 ```{r setup}
-library(mosaic)
+library(mosaicr)
 ```
 
 The `dot` mark creates scatter plots by drawing circular dots at specified positions. It's the most versatile mark for exploring relationships between variables.

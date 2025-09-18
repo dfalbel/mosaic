@@ -10,7 +10,7 @@ knitr::opts_chunk$set(
 ```
 
 ```{r setup}
-library(mosaic)
+library(mosaicr)
 ```
 
 The `heatmap` mark creates rectangular heatmaps where color intensity represents data values. It's perfect for visualizing matrices, correlation data, or any grid-based quantitative information.

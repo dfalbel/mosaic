@@ -60,7 +60,7 @@ mosaic <- function(spec, ..., api = NULL, width = NULL, height = NULL, elementId
     x,
     width = width,
     height = height,
-    package = 'mosaic',
+    package = 'mosaicr',
     elementId = elementId
   )
 }
@@ -83,7 +83,7 @@ mosaic <- function(spec, ..., api = NULL, width = NULL, height = NULL, elementId
 #'
 #' @export
 mosaicOutput <- function(outputId, width = '100%', height = '400px'){
-  htmlwidgets::shinyWidgetOutput(outputId, 'mosaic', width, height, package = 'mosaic')
+  htmlwidgets::shinyWidgetOutput(outputId, 'mosaic', width, height, package = 'mosaicr')
 }
 
 #' @rdname mosaic-shiny

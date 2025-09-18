@@ -10,7 +10,7 @@ knitr::opts_chunk$set(
 ```
 
 ```{r setup}
-library(mosaic)
+library(mosaicr)
 ```
 
 The `regressionY` mark automatically fits and displays regression lines through data points. It's invaluable for trend analysis and showing relationships between variables.

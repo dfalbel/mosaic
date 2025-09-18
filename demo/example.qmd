@@ -1,7 +1,7 @@
 
 
 ```{r}
-mosaic::mosaic(
+mosaicr::mosaic(
     api = NULL,
     spec = list(
         data = list(

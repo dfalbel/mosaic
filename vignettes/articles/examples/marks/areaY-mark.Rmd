@@ -10,7 +10,7 @@ knitr::opts_chunk$set(
 ```
 
 ```{r setup}
-library(mosaic)
+library(mosaicr)
 ```
 
 The `areaY` mark creates filled area charts. It's perfect for showing cumulative data, trends over time, or emphasizing the magnitude of values.

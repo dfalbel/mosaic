@@ -1,6 +1,6 @@
-# mosaic
+# mosaicr
 
-The **mosaic** package integrates R with the [Mosaic data visualization framework](https://uwdata.github.io/mosaic/) from UW Data, enabling scalable and interactive data visualization in R applications and documents.
+The **mosaicr** package integrates R with the [Mosaic data visualization framework](https://uwdata.github.io/mosaic/) from UW Data, enabling scalable and interactive data visualization in R applications and documents.
 
 ## What is Mosaic?
 
@@ -13,11 +13,11 @@ The **mosaic** package integrates R with the [Mosaic data visualization framewor
 
 ## Installation
 
-You can install the development version of mosaic from [GitHub](https://github.com/) with:
+You can install the development version of mosaicr from [GitHub](https://github.com/) with:
 
 ``` r
 # install.packages("pak")
-pak::pkg_install("dfalbel/mosaic")
+pak::pkg_install("dfalbel/mosaicr")
 ```
 
 ## Quick Start
@@ -27,7 +27,7 @@ pak::pkg_install("dfalbel/mosaic")
 For R Markdown documents or standalone HTML widgets:
 
 ```r
-library(mosaic)
+library(mosaicr)
 
 # Create a scatter plot specification
 spec <- list(
@@ -49,7 +49,7 @@ For interactive Shiny apps with server-side data processing:
 
 ```r
 library(shiny)
-library(mosaic)
+library(mosaicr)
 library(DBI)
 
 ui <- fluidPage(
@@ -90,11 +90,16 @@ shinyApp(ui, server)
 - **Database Backend**: Efficient data processing with DuckDB
 - **Arrow Format**: Optimized data transfer using Apache Arrow
 
+TODO:
+
+- **Interactions**: Support for interactors such as zoom, pan, and selection
+- **Linked Views**: Coordinated multiple views for complex dashboards
+
 ## Examples and Documentation
 
 For complete examples, tutorials, and API documentation, visit the package website:
 
-**🌐 [https://dfalbel.github.io/mosaic/](https://dfalbel.github.io/mosaic/)**
+**🌐 [https://dfalbel.github.io/mosaicr/](https://dfalbel.github.io/mosaicr/)**
 
 ## Related Projects
 

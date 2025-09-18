@@ -10,7 +10,7 @@ knitr::opts_chunk$set(
 ```
 
 ```{r setup}
-library(mosaic)
+library(mosaicr)
 ```
 
 The `hexbin` mark creates hexagonal binning visualizations, perfect for displaying density in large scatter plots where individual points would overlap and create overplotting issues.

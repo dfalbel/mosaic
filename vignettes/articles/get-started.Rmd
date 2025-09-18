@@ -10,7 +10,7 @@ knitr::opts_chunk$set(
 ```
 
 ```{r setup}
-library(mosaic)
+library(mosaicr)
 ```
 
 Mosaic allows creating scalable and interactive data visualizations using the 
@@ -192,7 +192,7 @@ Here's a simple example of a Shiny application that uses Mosaic to create an int
 
 ```{r, eval=FALSE}
 library(shiny)
-library(mosaic)
+library(mosaicr)
 library(DBI)
 library(duckdb)
 

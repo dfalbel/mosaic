@@ -10,7 +10,7 @@ knitr::opts_chunk$set(
 ```
 
 ```{r setup}
-library(mosaic)
+library(mosaicr)
 ```
 
 The `tickY` mark creates vertical tick marks. It's useful for showing discrete data points, distributions, or as reference marks.

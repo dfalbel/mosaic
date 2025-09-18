@@ -10,7 +10,7 @@ knitr::opts_chunk$set(
 ```
 
 ```{r setup}
-library(mosaic)
+library(mosaicr)
 ```
 
 The `contour` mark creates contour lines that show levels of equal values across a 2D surface. It's excellent for visualizing density distributions, topographic data, or any continuous surface.
