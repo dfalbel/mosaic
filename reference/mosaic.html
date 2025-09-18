@@ -68,7 +68,9 @@ for details.</p></dd>
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
 <dd><p>Named data frames to be used in the plot. Each data frame will be
-added to the spec in an efficient format so it can be used in the plot.</p></dd>
+added to the spec in an efficient format so it can be used in the plot.
+Can only be used in non-Shiny contexts or when not using the <code>api</code> parameter.
+If using the <code>api</code>, insert the data directly into the duckdb connection.</p></dd>
 
 
 <dt id="arg-api">api<a class="anchor" aria-label="anchor" href="#arg-api"></a></dt>
