@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Scalable, Interactive Data Visualization • mosaic</title>
+<title>Scalable, Interactive Data Visualization • mosaicr</title>
 <script src="deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
@@ -20,7 +20,7 @@
 
     <nav class="navbar navbar-expand-lg fixed-top bg-light" data-bs-theme="light" aria-label="Site navigation"><div class="container">
 
-    <a class="navbar-brand me-2" href="index.html">mosaic</a>
+    <a class="navbar-brand me-2" href="index.html">mosaicr</a>
 
     <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9000</small>
 
@@ -54,7 +54,7 @@
 <li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="search.json">
 </form></li>
-<li class="nav-item"><a class="external-link nav-link" href="https://github.com/dfalbel/mosaic/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
+<li class="nav-item"><a class="external-link nav-link" href="https://github.com/dfalbel/mosaicr/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
       </ul>
 </div>
 
@@ -63,9 +63,9 @@
 </nav><div class="container template-home">
 <div class="row">
   <main id="main" class="col-md-9"><div class="section level1">
-<div class="page-header"><h1 id="mosaic">mosaic<a class="anchor" aria-label="anchor" href="#mosaic"></a>
+<div class="page-header"><h1 id="mosaicr">mosaicr<a class="anchor" aria-label="anchor" href="#mosaicr"></a>
 </h1></div>
-<p>The <strong>mosaic</strong> package integrates R with the <a href="https://uwdata.github.io/mosaic/" class="external-link">Mosaic data visualization framework</a> from UW Data, enabling scalable and interactive data visualization in R applications and documents.</p>
+<p>The <strong>mosaicr</strong> package integrates R with the <a href="https://uwdata.github.io/mosaic/" class="external-link">Mosaic data visualization framework</a> from UW Data, enabling scalable and interactive data visualization in R applications and documents.</p>
 <div class="section level2">
 <h2 id="what-is-mosaic">What is Mosaic?<a class="anchor" aria-label="anchor" href="#what-is-mosaic"></a>
 </h2>
@@ -84,10 +84,10 @@
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
-<p>You can install the development version of mosaic from <a href="https://github.com/" class="external-link">GitHub</a> with:</p>
+<p>You can install the development version of mosaicr from <a href="https://github.com/" class="external-link">GitHub</a> with:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># install.packages("pak")</span></span>
-<span><span class="fu">pak</span><span class="fu">::</span><span class="fu"><a href="https://pak.r-lib.org/reference/pkg_install.html" class="external-link">pkg_install</a></span><span class="op">(</span><span class="st">"dfalbel/mosaic"</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">pak</span><span class="fu">::</span><span class="fu"><a href="https://pak.r-lib.org/reference/pkg_install.html" class="external-link">pkg_install</a></span><span class="op">(</span><span class="st">"dfalbel/mosaicr"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="quick-start">Quick Start<a class="anchor" aria-label="anchor" href="#quick-start"></a>
@@ -97,7 +97,7 @@
 </h3>
 <p>For R Markdown documents or standalone HTML widgets:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/dfalbel/mosaic" class="external-link">mosaic</a></span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/dfalbel/mosaicr" class="external-link">mosaicr</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Create a scatter plot specification</span></span>
 <span><span class="va">spec</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
@@ -118,7 +118,7 @@
 <p>For interactive Shiny apps with server-side data processing:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://shiny.posit.co/" class="external-link">shiny</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/dfalbel/mosaic" class="external-link">mosaic</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/dfalbel/mosaicr" class="external-link">mosaicr</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dbi.r-dbi.org" class="external-link">DBI</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">ui</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/fluidPage.html" class="external-link">fluidPage</a></span><span class="op">(</span></span>
@@ -165,12 +165,19 @@
 <li>
 <strong>Arrow Format</strong>: Optimized data transfer using Apache Arrow</li>
 </ul>
+<p>TODO:</p>
+<ul>
+<li>
+<strong>Interactions</strong>: Support for interactors such as zoom, pan, and selection</li>
+<li>
+<strong>Linked Views</strong>: Coordinated multiple views for complex dashboards</li>
+</ul>
 </div>
 <div class="section level2">
 <h2 id="examples-and-documentation">Examples and Documentation<a class="anchor" aria-label="anchor" href="#examples-and-documentation"></a>
 </h2>
 <p>For complete examples, tutorials, and API documentation, visit the package website:</p>
-<p><strong>🌐 <a href="https://dfalbel.github.io/mosaic/">https://dfalbel.github.io/mosaic/</a></strong></p>
+<p><strong>🌐 <a href="https://dfalbel.github.io/mosaicr/">https://dfalbel.github.io/mosaicr/</a></strong></p>
 </div>
 <div class="section level2">
 <h2 id="related-projects">Related Projects<a class="anchor" aria-label="anchor" href="#related-projects"></a>
@@ -191,9 +198,8 @@
   </main><aside class="col-md-3"><div class="links">
 <h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
-<li><a href="https://cloud.r-project.org/package=mosaic" class="external-link">View on CRAN</a></li>
-<li><a href="https://github.com/dfalbel/mosaic/" class="external-link">Browse source code</a></li>
-<li><a href="https://github.com/dfalbel/mosaic/issues" class="external-link">Report a bug</a></li>
+<li><a href="https://github.com/dfalbel/mosaicr/" class="external-link">Browse source code</a></li>
+<li><a href="https://github.com/dfalbel/mosaicr/issues" class="external-link">Report a bug</a></li>
 </ul>
 </div>
 
@@ -209,7 +215,7 @@
 <div class="citation">
 <h2 data-toc-skip>Citation</h2>
 <ul class="list-unstyled">
-<li><a href="authors.html#citation">Citing mosaic</a></li>
+<li><a href="authors.html#citation">Citing mosaicr</a></li>
 </ul>
 </div>
 
