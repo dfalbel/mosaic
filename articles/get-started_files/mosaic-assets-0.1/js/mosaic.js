@@ -15,7 +15,6 @@ function base64ToArrayBuffer(base64) {
 }
 
 export function registerMosaicHandler(ns) {
-    console.log("registering!");
     const promises = new Map();
 
     const shinyMosaicConnector = () => {
@@ -23,7 +22,6 @@ export function registerMosaicHandler(ns) {
             query: function (query) {
                 const id = crypto.randomUUID();
                 query.id = id;
-                console.log("Querying:", ns, query)
                 let promise = new Promise ((resolve, reject) => {
                     promises.set(id, [resolve, reject]);
                 });
@@ -34,7 +32,6 @@ export function registerMosaicHandler(ns) {
     }
 
     Shiny.addCustomMessageHandler(ns + '-mosaic_reply', msg => {
-        console.log("Reply:", msg);
         const [resolve, reject] = promises.get(msg.id);
         try {
             if (msg.error) {
@@ -65,23 +62,7 @@ export function registerMosaicHandler(ns) {
 if (window.Shiny) {
 
 window.Shiny.addCustomMessageHandler('register_mosaic_api', msg => {
-    console.log('registering vg!');
     registerMosaicHandler(msg.ns);
-    console.log('registered vg:', msg.ns);
 })
 
 }
-
-// window.vg = vg;
-// window.vg.coordinator().databaseConnector(shinyMosaicConnector());
-// create an area chart, returned as an HTML element
-// you can subsequently add this to your webpage
-
-
-
-// window.chart = window.vg.plot(
-//     window.vg.areaY(window.vg.from("mtcars"), { x: "mpg", y: "disp" })
-// );
-
-
-
