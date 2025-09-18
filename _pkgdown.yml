@@ -4,14 +4,12 @@ template:
 
 navbar:
   structure:
-    left: [intro, reference, articles, examples, tutorials, news]
+    left: [intro, reference, get-started, examples, news]
     right: [search, github]
   components:
-    articles:
-      text: Articles
-      menu:
-      - text: Get Started
-        href: articles/get-started.html
+    get-started:
+      text: Get Started
+      href: articles/get-started.html
     examples:
       text: Examples
       menu:
