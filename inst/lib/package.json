@@ -1,0 +1,15 @@
+{
+  "name": "lib",
+  "type": "module",
+  "private": true,
+  "devDependencies": {
+    "typescript": "^5.9.2",
+    "vite": "^7.1.6"
+  },
+  "scripts": { "build": "vite build" },
+  "dependencies": {
+    "@uwdata/mosaic-core": "^0.19.1",
+    "@uwdata/mosaic-spec": "^0.19.1",
+    "@uwdata/vgplot": "^0.19.1"
+  }
+}

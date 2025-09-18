@@ -1,4 +1,10 @@
 dependencies:
+  - name: mosaic-lib
+    version: "0.1"
+    package: mosaic
+    src: assets
+    script:
+      src: js/lib.js
   - name: mosaic-assets
     version: "0.1"
     package: mosaic
@@ -6,4 +12,5 @@ dependencies:
     script:
       src: js/mosaic.js
       type: module
+  
 

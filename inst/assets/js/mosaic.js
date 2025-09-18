@@ -1,6 +1,5 @@
-import * as mosaicCore from 'https://cdn.jsdelivr.net/npm/@uwdata/mosaic-core@0.18.0/+esm';
-import * as vg from 'https://cdn.jsdelivr.net/npm/@uwdata/vgplot@0.18.0/+esm'
-import * as mosaicSpec from 'https://cdn.jsdelivr.net/npm/@uwdata/mosaic-spec@0.18.0/+esm'
+const {mosaicCore, mosaicSpec, vg} = window.LibMosaic;
+
 var Shiny = window.Shiny;
 window.mosaicCore = mosaicCore;
 window.vg = vg;
