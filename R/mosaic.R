@@ -8,6 +8,8 @@
 #'  for details.
 #' @param ... Named data frames to be used in the plot. Each data frame will be
 #'  added to the spec in an efficient format so it can be used in the plot.
+#'  Can only be used in non-Shiny contexts or when not using the `api` parameter.
+#'  If using the `api`, insert the data directly into the duckdb connection.
 #' @param api An optional string identifier for a server-side data API. This can be
 #'  used to fetch data from a server-side DuckDB database. It's only used in Shiny apps
 #'  in combination with [mosaicServer()].
@@ -35,6 +37,14 @@ mosaic <- function(spec, ..., api = NULL, width = NULL, height = NULL, elementId
   # make sure it's named.
   data <- list(...)
   stopifnot(all(sapply(data, is.data.frame)))
+
+  if (!is.null(api) && length(data)) {
+    cli::cli_abort(c(
+      "Data should be inserted directly in the duckdb connection", 
+      "x" = "When using the 'api' parameter, data frames should not be passed directly to the 'mosaic()' function.",
+      "i" = "Insert data directly in the duckdb database used by the API instead."
+    ))
+  }
   
   # forward options using x
   x <- list(

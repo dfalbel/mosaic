@@ -20,7 +20,9 @@ mosaic(
 for details.}
 
 \item{...}{Named data frames to be used in the plot. Each data frame will be
-added to the spec in an efficient format so it can be used in the plot.}
+added to the spec in an efficient format so it can be used in the plot.
+Can only be used in non-Shiny contexts or when not using the \code{api} parameter.
+If using the \code{api}, insert the data directly into the duckdb connection.}
 
 \item{api}{An optional string identifier for a server-side data API. This can be
 used to fetch data from a server-side DuckDB database. It's only used in Shiny apps
