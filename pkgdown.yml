@@ -2,8 +2,18 @@ pandoc: 3.1.11
 pkgdown: 2.1.3
 pkgdown_sha: ~
 articles:
+  articles/examples/marks/areaY-mark: examples/marks/areaY-mark.html
+  articles/examples/marks/barY-mark: examples/marks/barY-mark.html
+  articles/examples/marks/contour-mark: examples/marks/contour-mark.html
+  articles/examples/marks/dot-mark: examples/marks/dot-mark.html
   articles/get-started: get-started.html
-last_built: 2025-09-18T18:36Z
+  articles/examples/marks/heatmap-mark: examples/marks/heatmap-mark.html
+  articles/examples/marks/hexbin-mark: examples/marks/hexbin-mark.html
+  articles/examples/marks/lineY-mark: examples/marks/lineY-mark.html
+  articles/examples/marks/regressionY-mark: examples/marks/regressionY-mark.html
+  articles/examples/marks/text-mark: examples/marks/text-mark.html
+  articles/examples/marks/tickY-mark: examples/marks/tickY-mark.html
+last_built: 2025-09-18T19:51Z
 urls:
   reference: https://dfalbel.github.io/mosaic/reference
   article: https://dfalbel.github.io/mosaic/articles
