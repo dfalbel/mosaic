@@ -1,9 +1,5 @@
 # mosaic
 
-<!-- badges: start -->
-[![R-CMD-check](https://github.com/dfalbel/mosaic/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/dfalbel/mosaic/actions/workflows/R-CMD-check.yaml)
-<!-- badges: end -->
-
 The **mosaic** package integrates R with the [Mosaic data visualization framework](https://uwdata.github.io/mosaic/) from UW Data, enabling scalable and interactive data visualization in R applications and documents.
 
 ## What is Mosaic?
