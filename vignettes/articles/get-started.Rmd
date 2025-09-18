@@ -25,11 +25,21 @@ To install the Mosaic package, you can use the following command in R:
 pak::pkg_install("dfalbel/mosaic")
 ```
 
-## Basic Usage
+## Usage
+
+There are two main use cases of htmlwidgets in R:
+
+1. **Static documents**: You can create a plot and display in Quarto or RMarkdown documents. The plot will be rendered as an interactive HTML widget in the output document. There's no backing server needed and the data is embedded in the document.
+
+2. **Interactive applications**: You can embed Mosaic plots in Shiny applications to create interactive dashboards or data exploration tools. There's a backing server that can be used to load data dynamically and respond to user inputs.
+
+The `mosaic` R package covers both use cases, but the way we provide the data to generate the plots is slightly different depending on the context.
+
+### Using in static documents
 
 To create mosaic plots, use the `mosaic` function. First define a specification. The spec is a list that describes the plot(s) you want to create with mosaic as well as the data to be used and optionally more attributes. See the [specification documentation](https://idl.uw.edu/mosaic/api/spec/format.html) for more details.
 
-At its simplest, a spec can be a list with a single plot definition. Here is an example of a simple scatter plot using the built-in `palmerpenguins` dataset:
+At its simplest, a spec can be a list with a single plot definition. Here is an example of a simple scatter plot using the built-in `penguins` dataset:
 
 ```{r}
 spec <- list(
@@ -47,6 +57,8 @@ spec <- list(
 ```
 
 Similar to other grammars, a plot consists of marks — graphical primitives such as bars, areas, and lines—which serve as chart layers. Mosaic uses the semantics of Observable Plot, such that each plot has a dedicated set of encoding channels with named scale mappings such as x, y, color, opacity, etc. See [marks API reference](https://idl.uw.edu/mosaic/api/vgplot/marks.html) for a full list of available marks and their channels.
+
+Notice that for static documents, we provide the data as a named argument to the `mosaic` function. The name of the argument (here `penguins`) must match the name used in the spec (`from = "penguins"`). In Shiny applications, data is provided differently (see below).
 
 ```{r}
 mosaic(
@@ -84,14 +96,17 @@ mosaic(
 )
 ```
 
-## Loading data
+#### Loading data
 
-You can also use the `data` attribute in the spec to load data asyncronously into the plot.
-This is useful to acquire data from a remote source. 
+Loading data this way will embbed the full data into the document, and this may not be desirable for large datasets.
+You can also use the `data` attribute in the spec to load data asyncronously into the plot. This also
+allows acquiring data from a remote server when the document is visualized. Notice that in this case,
+the document is no longer fully self-contained, as it will need to fetch the data from a server when a client
+views it.
 
 Files are downloaded from a URL relative to the `baseURL` parameter in the `mosaic` function. 
 By default, this is pointing to a examples server hosted by the [IDL](https://idl.uw.edu). You should
-change this to your own server or a public CDN.
+change this to your own server or a public CDN providing the dataset you want to visualize.
 
 ```{r}
 spec <- list(
@@ -119,10 +134,14 @@ spec <- list(
 mosaic(spec)
 ```
 
-## Inputs
+You can read Parquet, CSV, and JSON files. See the [data loading documentation](https://idl.uw.edu/mosaic/api/sql/data-loading.html) for more details.
 
-Mosaic supports interactive inputs that can be used to filter or modify the plot.
-Here's an example:
+#### Inputs
+
+Mosaic supports interactive inputs that can be used to filter or modify the plot. These inputs are all executed and managed on the client side, so there's no need for a backing server to handle the user interactions. Thus, this can
+be used in static documents.
+
+Here's a small example:
 
 ```{r}
 spec <- list(
@@ -154,3 +173,74 @@ spec <- list(
 
 mosaic(spec)
 ```
+
+Mosaic provides many different types of inputs such as sliders, menus and search. See the [inputs documentation](https://idl.uw.edu/mosaic/inputs/) for more details.
+
+### Using in Shiny applications
+
+To use Mosaic in Shiny applications, you can use the `mosaicOutput` function to create a UI output element and the `renderMosaic` combined with the `mosaic` function. Additionally, you should use the `mosaicServer` Shiny module to
+handle data transfers between the server and the client.
+
+The `mosaicServer` is the secret sauce in the mosaic package, allowing you to visualize datasets with thousands of
+data points without overloading the client. It does this by sending only the data needed to render the current view of the plot, and it can also execute SQL queries to filter or aggregate data on the server side. Mosaic is able to
+make optimzied queries based on the current view, and on the plot size and resolution. See [Queries & Optimization](https://idl.uw.edu/mosaic/what-is-mosaic/#queries-optimization) for additional information.
+
+The `spec` syntax is very similar to the one used for static documents, the main difference is that we're not going to use the `data` field in the `spec` or provide data as named arguments to the `mosaic` function. Instead, we will
+insert the dataset we want to visualize into a `duckdb` connection and pass that connection to the `mosaicServer` module.
+
+Here's a simple example of a Shiny application that uses Mosaic to create an interactive scatter plot:
+
+```{r, eval=FALSE}
+library(shiny)
+library(mosaic)
+library(DBI)
+library(duckdb)
+
+ui <- fluidPage(
+  titlePanel("Mosaic in Shiny"),
+  sidebarLayout(
+    sidebarPanel(
+      helpText("An example of using Mosaic in a Shiny application.")
+    ),
+    mainPanel(
+      mosaicOutput("mosaicPlot")
+    )
+  )
+)
+
+# Create a duckdb connection
+con <- dbConnect(duckdb::duckdb(), dbdir=":memory:")
+
+# Copy the penguins dataset to the duckdb connection
+dbWriteTable(con, "penguins", penguins)
+
+server <- function(input, output, session) {
+  
+  # Define the mosaic specification
+  spec <- list(
+    plot = list(
+      list(
+        mark = "dot",
+        data = list(from = "penguins"),
+        x = "body_mass",
+        y = "flipper_len",
+        stroke = list(column = "species"),
+        symbol = list(column = "species")
+      )
+    )
+  )
+  
+  # Call the mosaicServer module
+  api_id <- mosaicServer("mosaicPlot", con)
+  
+  # Render the mosaic plot
+  output$mosaicPlot <- renderMosaic({
+    mosaic(spec, api = api_id())
+  })
+}
+
+shinyApp(ui, server)
+```
+
+With this approach, you can create interactive and scalable data visualizations in Shiny applications using the Mosaic framework. Feel free to try creating plots with much larger datasets and explore the capabilities of Mosaic!
+
