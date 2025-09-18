@@ -89,7 +89,7 @@ spec_penguins <- list(
   yLabel = "Flipper Length (mm)"
 )
 
-mosaic(spec_penguins, penguins = palmerpenguins::penguins)
+mosaic(spec_penguins, penguins = penguins)
 ```
 
 ### Multiple Series
