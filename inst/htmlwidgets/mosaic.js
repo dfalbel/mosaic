@@ -18,22 +18,40 @@ HTMLWidgets.widget({
           el.replaceChildren(result.element);
         })
         .catch((err) => {
+          const error = document.createElement('div');
+          error.style.cssText='color:red;white-space:pre-wrap;font-family:monospace';
+          error.textContent = err.message;          
+          el.replaceChildren(error);
           console.error(err);
         });
     };
+
+    async function insertData(api, data) {
+      if (!data) {
+        return;
+      }
+      
+      data = Object.fromEntries(
+        Object.entries(data).map(([k, v]) => [k, HTMLWidgets.dataframeToD3(v)])
+      );
+
+      for (let name in data) {
+        if (data[name]) {
+          const db = await api.context.coordinator.databaseConnector().getDuckDB();
+          await db.registerFileText("temp.json", JSON.stringify(data[name]));
+          const query = window.vg.loadJSON(name, "temp.json");
+          await api.context.coordinator.exec(query);
+        }
+      }
+
+      return;
+    }
 
     return {
       renderValue: function(x) {
         spec = x.spec;
         spec.width = width;
         spec.height = height;
-
-        if (x.data) {
-          let data = Object.fromEntries(
-            Object.entries(x.data).map(([k, v]) => [k, HTMLWidgets.dataframeToD3(v)])
-          );
-          spec.data = Object.assign({}, spec.data, data);
-        }
 
         console.log(spec);
         
@@ -51,9 +69,10 @@ HTMLWidgets.widget({
               window.mosaicCore.wasmConnector()
             )
           });
+          window.api = options.api;
         }
 
-        generatePlot(spec, options);
+        insertData(options.api, x.data).then(() => generatePlot(spec, options));
       },
 
       resize: function(width, height) {

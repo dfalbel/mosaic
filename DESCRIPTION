@@ -15,5 +15,4 @@ Config/Needs/website: rmarkdown
 Imports: 
     htmlwidgets
 Suggests: 
-    shiny,
-    dplyr
+    shiny

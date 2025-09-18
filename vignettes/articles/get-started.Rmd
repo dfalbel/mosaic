@@ -51,7 +51,7 @@ Similar to other grammars, a plot consists of marks — graphical primitives suc
 ```{r}
 mosaic(
   spec,
-  penguins = dplyr::sample_n(penguins, 50)
+  penguins = penguins
 )
 ```
 
@@ -80,7 +80,7 @@ spec <- list(
 
 mosaic(
   spec,
-  penguins = dplyr::sample_n(penguins, 50)
+  penguins = penguins
 )
 ```
 
