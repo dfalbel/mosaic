@@ -4,14 +4,14 @@ template:
 
 navbar:
   structure:
-    left: [intro, reference, get-started, examples, news]
-    right: [search, github]
+    left: [intro, get-started, marks, examples, news]
+    right: [reference, search, github]
   components:
     get-started:
       text: Get Started
       href: articles/get-started.html
-    examples:
-      text: Examples
+    marks:
+      text: Marks
       menu:
       - text: "Mark Types"
       - text: "Area Charts"
@@ -34,4 +34,10 @@ navbar:
         href: articles/examples/marks/text-mark.html
       - text: "Tick Marks"
         href: articles/examples/marks/tickY-mark.html
+    examples:
+        text: Examples
+        menu:
+          - text: Multi-Series Line Chart
+            href: articles/examples/line-multi-series.html
+    
 

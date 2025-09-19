@@ -6,3 +6,4 @@
 ^\.github$
 ^vignettes/articles$
 ^LICENSE\.md$
+^inst/lib.*$

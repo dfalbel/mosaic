@@ -7,12 +7,9 @@ ui <- fluidPage(
 )
 
 con <- dbConnect(duckdb::duckdb(), dbdir=":memory:")
-dbWriteTable(con, "mtcars", mtcars)
+dbWriteTable(con, "flights", nycflights13::flights)
 
 server <- function(input, output, session) {
-
-  con <- duckdb::dbConnect(duckdb::duckdb(), dbdir=":memory:")
-  dbWriteTable(con, "mtcars", mtcars)
 
   id <- mosaicServer("mosaic1", con)
 
@@ -23,9 +20,9 @@ server <- function(input, output, session) {
         plot = list(
           list(
             mark = "dot",
-            data = list(from = "mtcars"),
-            x = "mpg",
-            y = "disp"
+            data = list(from = "flights"),
+            x = "dep_time",
+            y = "dep_delay"
           )
         )
       )
@@ -35,3 +32,4 @@ server <- function(input, output, session) {
 }
 
 shinyApp(ui, server)
+
